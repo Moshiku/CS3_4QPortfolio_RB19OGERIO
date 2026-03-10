@@ -34,28 +34,24 @@ input[type="date"], select{
     border-radius: 6px;
 }
 
-.rating input {
-  display: none;
+.rating{
+    display:flex;
+    flex-direction:row-reverse;
+    justify-content:flex-end;
 }
 
-.rating label {
-  font-size: 40px;
-  color: gray;
-  cursor: pointer;
-   display: inline-block;
-  margin-right: 15px;
-  cursor: pointer;
+.rating input{
+    display:none;
 }
 
-.rating:not(:checked) > label:hover,
-.rating:not(:checked) > label:hover ~ label {
-  color: #ccda4f;
+.rating label{
+    font-size:50px;
+    color:#ccc;
+    cursor:pointer;
 }
 
-.rating > input:checked ~ label,
-.rating > input:checked ~ label:hover,
-.rating > input:checked ~ label:hover ~ label {
-  color: #ccda4f;
+.rating input:checked ~ label{
+    color:gold;
 }
 body{
     background-color: #5f0a11; /* Fallback */
