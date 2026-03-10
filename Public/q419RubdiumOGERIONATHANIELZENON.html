@@ -1,0 +1,90 @@
+<head>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<title>Movie Ratings</title>
+
+</head>
+<body>
+<form id="forms">
+  <center><h1>MOVIE RATINGS</h1></center>
+  <div class="Title">
+    <label for="title">🎥Title:</label>
+    <input type="text" id="title" name="title" required placeholder="How to Train Your Dragon"><br>
+    </div>
+    <div class="YearOfRelease">
+    <label for="year_of_release">🗓️Year:</label>
+    <input type="date" id="year_of_release" name="year_of_release" required placeholder="2010"><br>
+    <label for="Genre">🎭Genre:</label>
+  </div>
+    <div class="Genres">
+    <select name="Genres" Id="genres">
+      <option value="Action">🔫Action</option>
+      <option value="Adventure">⛰️Adventure</option>
+      <option value="Animation">✏️Animation</option>
+      <option value="Comedy">🤣Comedy</option>
+      <option value="Crime">👮Crime</option>
+      <option value="Documentary">📃Documentary</option>
+      <option value="Drama">🎭Drama</option>
+      <option value="Fantasy">🐉Fantasy</option>
+      <option value="History">📅History</option>
+      <option value="Horror">💀Horror</option>
+      <option value="Mystery">🕵️Mystery</option>
+      <option value="Romance">💓Romance</option>
+      <option value="Fiction">🐲Fiction</option>
+      <option value="Thriller">🧟Thriller</option>
+    </select>
+    </div>
+    <br>
+    <div class="Rate">
+    <label for="rating">Rating:</label>
+    <div class="rating">
+    <input type="radio" id="star5" name="rating" value="5" /><label for="star5">★</label>
+    <input type="radio" id="star4" name="rating" value="4" /><label for="star4">★</label>
+    <input type="radio" id="star3" name="rating" value="3" /><label for="star3">★</label>
+    <input type="radio" id="star2" name="rating" value="2" /><label for="star2">★</label>
+    <input type="radio" id="star1" name="rating" value="1" /><label for="star1">★</label>
+    </div>
+    </div>
+    <button type="submit">ADD MOVIE</button>
+    <h1>Movie List</h1>
+  <div id="movieList">  </div>
+  </form>
+</body>
+
+<script>
+const form = document.getElementById(`forms`);
+const movieList = document.getElementById(`movieList`);
+form.addEventListener(`submit`, function ratingForm(event)
+{
+  event.preventDefault();
+
+  const title = document.getElementById(`title`).value;
+  const yearOfRelease = document.getElementById(`year_of_release`).value;
+  const genre = document.getElementById(`genres`).value;
+  const rating = document.querySelector(`input[name="rating"]:checked`).value;
+
+  const movie = {
+    TitleOfMovie: title,
+    YearOfRelease: yearOfRelease,
+    Genre: genre,
+    Rating: rating
+  }
+localStorage.setItem("Movie", JSON.stringify(movie));
+
+let readmovie = JSON.parse(localStorage.getItem("Movie"));
+
+const rowHTML = `
+  <tr>
+    <td>${readmovie.TitleOfMovie}</td>
+    <td>${readmovie.YearOfRelease}</td>
+    <td>${readmovie.Genre}</td>
+    <td>${readmovie.Rating}</td>
+  </tr>
+`;
+movieList.innerHTML += rowHTML;
+
+form.reset();
+})
+</script>
