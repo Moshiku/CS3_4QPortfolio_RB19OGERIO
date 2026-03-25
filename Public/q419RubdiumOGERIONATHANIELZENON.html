@@ -13,13 +13,15 @@
     <label for="title">🎥Title:</label>
     <input type="text" id="title" name="title" required placeholder="How to Train Your Dragon"><br>
     </div>
+    
     <div class="YearOfRelease">
     <label for="year_of_release">🗓️Year:</label>
     <input type="date" id="year_of_release" name="year_of_release" required placeholder="2010"><br>
     <label for="Genre">🎭Genre:</label>
   </div>
-    <div class="Genres">
-    <select name="Genres" Id="genres">
+    
+  <div class="Genres">
+    <select name="Genres" id="genres">
       <option value="Action">🔫Action</option>
       <option value="Adventure">⛰️Adventure</option>
       <option value="Animation">✏️Animation</option>
@@ -36,7 +38,9 @@
       <option value="Thriller">🧟Thriller</option>
     </select>
     </div>
+    
     <br>
+    
     <div class="Rate">
     <label for="rating">Rating:</label>
     <div class="rating">
@@ -47,44 +51,105 @@
     <input type="radio" id="star1" name="rating" value="1" /><label for="star1">★</label>
     </div>
     </div>
+    
+    <div class = "Submit_Button">
     <button type="submit">ADD MOVIE</button>
-    <h1>Movie List</h1>
-  <div id="movieList">  </div>
+    </div>
+
+    <div id="movieList">  </div>
   </form>
+  
+  <footer>
+    <center style="background-color: white;">
+    <p>© 2026 OGERIO,NATHANIEL ZENON</p>
+    <p>Used ChatGPT and W3schools to help in solving problems and understanding concepts</p>
+    </center>
+  </footer>
+
 </body>
 
 <script>
-const form = document.getElementById(`forms`);
-const movieList = document.getElementById(`movieList`);
-form.addEventListener(`submit`, function ratingForm(event)
-{
+const form = document.getElementById("forms");
+const movieList = document.getElementById("movieList");
+
+
+form.addEventListener("submit", function (event) {
   event.preventDefault();
 
-  const title = document.getElementById(`title`).value;
-  const yearOfRelease = document.getElementById(`year_of_release`).value;
-  const genre = document.getElementById(`genres`).value;
-  const rating = document.querySelector(`input[name="rating"]:checked`).value;
+
+  const title = document.getElementById("title").value;
+  const yearOfRelease = document.getElementById("year_of_release").value;
+  const genre = document.getElementById("genres").value;
+
+  const ratingInput = document.querySelector(`input[name="rating"]:checked`);
+  const rating = ratingInput ? ratingInput.value : "No rating";
 
   const movie = {
     TitleOfMovie: title,
     YearOfRelease: yearOfRelease,
     Genre: genre,
     Rating: rating
-  }
-localStorage.setItem("Movie", JSON.stringify(movie));
+  };
 
-let readmovie = JSON.parse(localStorage.getItem("Movie"));
+  
+  let movies = JSON.parse(localStorage.getItem("movies")) || [];
+  if (editIndex === -1) {
+  movies.push(movie);
+} else {
+  movies[editIndex] = movie;
+  editIndex = -1; 
+};
+  localStorage.setItem("movies", JSON.stringify(movies));
 
-const rowHTML = `
-  <tr>
-    <td>${readmovie.TitleOfMovie}</td>
-    <td>${readmovie.YearOfRelease}</td>
-    <td>${readmovie.Genre}</td>
-    <td>${readmovie.Rating}</td>
-  </tr>
-`;
-movieList.innerHTML += rowHTML;
+  displayMovies();
+  form.reset();
+});
 
-form.reset();
-})
+
+ function deleteMovie(index) {
+  let movies = JSON.parse(localStorage.getItem("movies")) || [];
+  movies.splice(index, 1);
+  localStorage.setItem("movies", JSON.stringify(movies));
+  displayMovies();
+}
+let editIndex = -1;
+
+function editMovie(index) {
+  let movies = JSON.parse(localStorage.getItem("movies")) || [];
+  const movie = movies[index];
+
+  document.getElementById("title").value = movie.TitleOfMovie;
+  document.getElementById("year_of_release").value = movie.YearOfRelease;
+  document.getElementById("genres").value = movie.Genre;
+
+  
+  const ratingInput = document.querySelector(`input[name="rating"][value="${movie.Rating}"]`);
+  if (ratingInput) ratingInput.checked = true;
+
+  editIndex = index;
+}
+
+function displayMovies() {
+  let movies = JSON.parse(localStorage.getItem("movies")) || [];
+
+  movieList.innerHTML = "";
+  movies.forEach((m, index) => {
+    const rowHTML = `
+      <div class="movie-item">
+        <p><strong>${m.TitleOfMovie}</strong></p>
+        <p>${m.YearOfRelease}</p>
+        <p>${m.Genre}</p>
+        <p>${m.Rating} ⭐</p>
+        
+        <button type="button" onclick="editMovie(${index})">Edit</button>
+        <button type="button" onclick="deleteMovie(${index})">Delete</button>
+
+        <hr>
+      </div>
+    `;
+    movieList.innerHTML += rowHTML;
+  });
+}
+
+displayMovies();
 </script>
