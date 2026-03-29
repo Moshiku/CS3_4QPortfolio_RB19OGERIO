@@ -38,10 +38,3 @@
 
 # D
 ## If I had to make a design for school's webpage I would probably make a side bar with the list of the activies at the side so that once the click on it they can see the info of the said activity.
-=======
-## The z-index positions the element either infront z-index=1 or behind an element z-index = number>1. when you change the z index values it can change which element can be seen first.
-
-# CHALLENGE
-
-# Reflection Questions
->>>>>>> 66d867900013a02cf0338607fe0fbcbc4abc04c1
